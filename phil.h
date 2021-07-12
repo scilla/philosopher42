@@ -9,16 +9,6 @@
 
 typedef long long int	t_llint;
 
-typedef struct	s_phil
-{
-	int			pid;
-	int			stage;
-	t_llint		eat;
-	t_llint		think;
-	t_llint		sleep;
-	t_llint		stage_time;
-}				t_phil;
-
 typedef struct	s_tinfo
 {
 	pthread_t	tid;
@@ -35,5 +25,16 @@ typedef struct	s_opt
 	pthread_mutex_t	**fork_m;
 	pthread_mutex_t	*print_m;
 }				t_opt;
+
+typedef struct	s_phil
+{
+	int			pid;
+	int			stage;
+	t_llint		eat;
+	t_llint		think;
+	t_llint		sleep;
+	t_llint		stage_time;
+	t_opt		*opt;
+}				t_phil;
 
 #endif

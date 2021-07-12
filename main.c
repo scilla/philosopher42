@@ -64,7 +64,7 @@ pthread_mutex_t	**init_mutex(t_opt *opt)
 
 int	main(int argc, char **argv)
 {
-	t_tinfo			*tinfo;
+	pthread_t		*tid;
 	pthread_attr_t	*attr;
 	int				i;
 	void			*ret;
@@ -74,17 +74,21 @@ int	main(int argc, char **argv)
 	opt->time_die = 800;
 	opt->time_eat = 200;
 	opt->time_sleep = 200;
-	opt->p_count = 5;
+	opt->p_count = 200;
 
 	init_mutex(opt);
 
 	attr = malloc(sizeof(pthread_attr_t));
 	pthread_attr_init(attr);
 
-	tinfo = malloc(sizeof(t_tinfo));
-	i = pthread_create(&tinfo->tid, attr, &pinfo, opt);
-	usleep(200 * 1000);
-	i = pthread_create(&tinfo->tid, attr, &pinfo, opt);
-	pthread_join(tinfo->tid, &ret);
+	tid = malloc(sizeof(pthread_t) * opt->p_count);
+	i = 0;
+	while (i < opt->p_count)
+	{
+		pthread_create(&tid[i], attr, &pinfo, opt);
+		i++;
+	}
+	
+	pthread_join(tid[0], &ret);
 	return (0);
 }
