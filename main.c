@@ -46,14 +46,18 @@ pthread_mutex_t	**init_mutex(t_opt *opt)
 
 	i = 0;
 	opt->fork_m = malloc(sizeof(pthread_mutex_t*) * (opt->p_count + 1));
+	opt->forks = malloc(sizeof(int*) * (opt->p_count + 1));
 	i = 0;
 	while (i < opt->p_count)
 	{
 		opt->fork_m[i] = malloc(sizeof(pthread_mutex_t));
+		opt->forks[i] = malloc(sizeof(int));
+		*opt->forks[i] = 0;
 		pthread_mutex_init(opt->fork_m[i], NULL);
 		i++;
 	}
 	opt->fork_m[i] = opt->fork_m[0];
+	opt->forks[i] = opt->forks[0];
 	opt->print_m = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(opt->print_m, NULL);
 }

@@ -11,10 +11,12 @@ typedef long long int	t_llint;
 
 typedef struct	s_phil
 {
+	int			pid;
+	int			stage;
 	t_llint		eat;
 	t_llint		think;
 	t_llint		sleep;
-	int			pid;
+	t_llint		stage_time;
 }				t_phil;
 
 typedef struct	s_tinfo
@@ -29,6 +31,7 @@ typedef struct	s_opt
 	int	time_eat;
 	int	time_sleep;
 	int	p_count;
+	int	**forks;
 	pthread_mutex_t	**fork_m;
 	pthread_mutex_t	*print_m;
 }				t_opt;
