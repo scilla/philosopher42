@@ -17,9 +17,9 @@ typedef struct	s_tinfo
 
 typedef struct	s_opt
 {
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
+	t_llint			time_die;
+	t_llint			time_eat;
+	t_llint			time_sleep;
 	int				p_count;
 	int				**forks;
 	int				alive;
@@ -31,6 +31,9 @@ typedef struct	s_phil
 {
 	int			pid;
 	int			stage;
+	int			fails;
+	int			left;
+	int			right;
 	t_llint		stage_time;
 	t_llint		last_eat;
 	t_opt		*opt;
