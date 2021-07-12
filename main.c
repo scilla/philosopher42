@@ -39,6 +39,25 @@ void	*pinfo(void *arg)
 	return (0);
 }
 
+pthread_mutex_t	**init_mutex(t_opt *opt)
+{
+	int	i;
+	pthread_mutex_t	**fork_m;
+
+	i = 0;
+	opt->fork_m = malloc(sizeof(pthread_mutex_t*) * (opt->p_count + 1));
+	i = 0;
+	while (i < opt->p_count)
+	{
+		opt->fork_m[i] = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(opt->fork_m[i], NULL);
+		i++;
+	}
+	opt->fork_m[i] = opt->fork_m[0];
+	opt->print_m = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(opt->print_m, NULL);
+}
+
 int	main(int argc, char **argv)
 {
 	t_tinfo			*tinfo;
@@ -52,18 +71,8 @@ int	main(int argc, char **argv)
 	opt->time_eat = 200;
 	opt->time_sleep = 200;
 	opt->p_count = 5;
-	opt->print_m = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(opt->print_m, NULL);
 
-	opt->fork_m = malloc(sizeof(pthread_mutex_t*) * (opt->p_count + 1));
-	i = 0;
-	while (i < opt->p_count)
-	{
-		opt->fork_m[i] = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(opt->fork_m[i], NULL);
-		i++;
-	}
-	opt->fork_m[i] = opt->fork_m[0];
+	init_mutex(opt);
 
 	attr = malloc(sizeof(pthread_attr_t));
 	pthread_attr_init(attr);

@@ -14,6 +14,7 @@ typedef struct	s_phil
 	t_llint		eat;
 	t_llint		think;
 	t_llint		sleep;
+	int			pid;
 }				t_phil;
 
 typedef struct	s_tinfo
@@ -30,7 +31,6 @@ typedef struct	s_opt
 	int	p_count;
 	pthread_mutex_t	**fork_m;
 	pthread_mutex_t	*print_m;
-	int	pid;
 }				t_opt;
 
 #endif
