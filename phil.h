@@ -23,6 +23,7 @@ typedef struct	s_opt
 	int				p_count;
 	int				**forks;
 	int				alive;
+	int				eat_count;
 	pthread_mutex_t	**fork_m;
 	pthread_mutex_t	*print_m;
 }				t_opt;
@@ -34,6 +35,7 @@ typedef struct	s_phil
 	int			fails;
 	int			left;
 	int			right;
+	int			eat_count;
 	t_llint		stage_time;
 	t_llint		last_eat;
 	t_opt		*opt;

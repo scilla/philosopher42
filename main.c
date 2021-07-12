@@ -3,6 +3,13 @@
 typedef struct timeval	t_time;
 typedef struct timezone	t_zone;
 
+void	wrapped_print(t_opt *opt, t_llint ttime, int pid, char *str)
+{
+	pthread_mutex_lock(opt->print_m);
+	printf("%lld %d %s\n", ttime, pid, str);
+	pthread_mutex_unlock(opt->print_m);
+}
+
 t_llint	mtime()
 {
 	t_llint	mtime_res;
@@ -35,13 +42,12 @@ int	get_forks(t_opt *opt, t_phil *phil)
 	int	res;
 
 	res = 0;
-	//printf("%lld %d checking forks\n", mtime(), phil->pid);
 	if (!phil->left)
 	{
 		pthread_mutex_lock(opt->fork_m[phil->pid - 1]);
 		if (!*opt->forks[phil->pid - 1])
 		{
-			printf("%lld %d has taken a fork (left)\n", mtime(), phil->pid);
+			wrapped_print(opt, mtime(), phil->pid, "has taken a fork (left)");
 			*opt->forks[phil->pid - 1] = 1;
 			res += 1;
 			phil->left = 1;
@@ -55,7 +61,7 @@ int	get_forks(t_opt *opt, t_phil *phil)
 		pthread_mutex_lock(opt->fork_m[phil->pid]);
 		if (!*opt->forks[phil->pid])
 		{
-			printf("%lld %d has taken a fork (right)\n", mtime(), phil->pid);
+			wrapped_print(opt, mtime(), phil->pid, "has taken a fork (right)");
 			*opt->forks[phil->pid] = 1;
 			res += 2;
 			phil->right = 1;
@@ -94,14 +100,14 @@ void	*life(void *arg)
 	opt = phil->opt;
 	if (phil->pid % 2)
 		msleep(opt->time_eat + 1);
-	printf("%lld start %d\n", mtime(), phil->pid);
+	wrapped_print(opt, mtime(), phil->pid, "start");
 	while (opt->alive)
 	{
 		tt = mtime();
 		if (phil->last_eat < tt - opt->time_die)
 		{
 			opt->alive = 0;
-			printf("%lld %d died\n", tt, phil->pid);
+			wrapped_print(opt, mtime(), phil->pid, "died");
 			break ;
 		}
 		//if (phil->stage == 0 && tt - phil->last_eat > (phil->fails * opt->time_die) / (phil->fails + 1))
@@ -112,7 +118,7 @@ void	*life(void *arg)
 			res = get_forks(opt, phil);
 			if (res)
 			{
-				printf("%lld %d is eating\n", tt, phil->pid);
+				wrapped_print(opt, mtime(), phil->pid, "is eating");
 				phil->last_eat = tt;
 				phil->stage_time = tt;
 				phil->stage = 1;
@@ -125,7 +131,7 @@ void	*life(void *arg)
 		{
 			if (phil->stage_time < tt - opt->time_eat)
 			{
-				printf("%lld %d is sleeping\n", tt, phil->pid);
+				wrapped_print(opt, mtime(), phil->pid, "is sleeping");
 				drop_forks(opt, phil);
 				phil->stage_time = tt;
 				phil->stage = 2;
@@ -135,9 +141,16 @@ void	*life(void *arg)
 		{
 			if (phil->stage_time < tt - opt->time_sleep)
 			{
-				printf("%lld %d is thinking\n", tt, phil->pid);
 				phil->stage_time = tt;
 				phil->stage = 0;
+				phil->eat_count++;
+				if (opt->eat_count >= 0 && phil->eat_count >= opt->eat_count)
+				{
+					wrapped_print(opt, mtime(), phil->pid, "done!");
+					break ;
+				}
+				else
+					wrapped_print(opt, mtime(), phil->pid, "is thinking");
 			}
 		}
 		msleep(1);
@@ -182,6 +195,10 @@ int	main(int argc, char **argv)
 	opt->time_die = atoi(argv[2]);
 	opt->time_eat = atoi(argv[3]);
 	opt->time_sleep = atoi(argv[4]);
+	if (argc > 5)
+		opt->eat_count = atoi(argv[5]);
+	else
+		opt->eat_count = -1;
 	opt->alive = 1;
 
 	init_mutex(opt);
@@ -199,6 +216,7 @@ int	main(int argc, char **argv)
 		phil->pid = i + 1;
 		phil->stage = 0;
 		phil->fails = 1;
+		phil->eat_count = 0;
 		phil->stage_time = 0;
 		phil->last_eat = mtime();
 		pthread_create(&tid[i], attr, &life, phil);
