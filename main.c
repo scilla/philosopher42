@@ -98,9 +98,9 @@ void	*life(void *arg)
 
 	phil = (t_phil*)arg;
 	opt = phil->opt;
+	wrapped_print(opt, mtime(), phil->pid, "start");
 	if (phil->pid % 2)
 		msleep(opt->time_eat + 1);
-	wrapped_print(opt, mtime(), phil->pid, "start");
 	while (opt->alive)
 	{
 		tt = mtime();
@@ -190,6 +190,7 @@ int	main(int argc, char **argv)
 	t_opt			*opt;
 	t_phil			*phil;
 
+	printf("%lld sim started\n", mtime());
 	opt = malloc(sizeof(t_opt));
 	opt->p_count = atoi(argv[1]);
 	opt->time_die = atoi(argv[2]);
