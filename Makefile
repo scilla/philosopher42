@@ -1,5 +1,5 @@
 SRCS			= main.c utils.c life.c ft_atoi.c generator.c fork.c
-SRCS_BONUS		= main_bonus.c utils.c life.c ft_atoi.c
+SRCS_BONUS		= main_bonus.c utils.c life.c ft_atoi.c fork_bonus.c
 OBJ				= $(SRCS:.c=.o)
 OBJ_BONUS		= $(SRCS_BONUS:.c=.o)
 

@@ -21,16 +21,16 @@ t_llint	mtime(void)
 	return (mtime_res);
 }
 
+void	msleep(t_llint msec)
+{
+	usleep(msec * 1000);
+}
+
 void	msleep_till(t_llint msec)
 {
 	t_llint	delta;
 
 	delta = msec - mtime();
 	if (delta > 0)
-		usleep(delta * 1000);
-}
-
-void	msleep(t_llint msec)
-{
-	usleep(msec * 1000);
+		msleep(delta);
 }

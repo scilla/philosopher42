@@ -3,21 +3,6 @@
 typedef struct timeval	t_time;
 typedef struct timezone	t_zone;
 
-int	get_forks(t_opt *opt, t_phil *phil)
-{
-	int	res;
-
-	sem_wait(opt->sem);
-	sem_wait(opt->sem);
-	return (1);
-}
-
-void	drop_forks(t_opt *opt, t_phil *phil)
-{
-	sem_post(opt->sem);
-	sem_post(opt->sem);
-}
-
 void	init_mutex(t_opt *opt)
 {
 	int	i;
