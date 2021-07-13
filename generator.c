@@ -9,6 +9,8 @@ t_phil	*gen_phil(t_opt *opt, int i)
 	phil->opt = opt;
 	phil->pid = i + 1;
 	phil->stage = 0;
+	phil->left = 0;
+	phil->right = 0;
 	phil->eat_count = 0;
 	phil->stage_time = 0;
 	phil->last_eat = mtime();
