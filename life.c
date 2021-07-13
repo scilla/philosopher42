@@ -17,8 +17,8 @@ void	*life(void *arg)
 		tt = mtime();
 		if (phil->last_eat < tt - opt->time_die)
 		{
-			opt->alive = 0;
 			wrapped_print(opt, mtime(), phil->pid, "died");
+			opt->alive = 0;
 			break ;
 		}
 		if (phil->stage == 0)
@@ -30,10 +30,7 @@ void	*life(void *arg)
 				phil->last_eat = tt;
 				phil->stage_time = tt;
 				phil->stage = 1;
-				phil->fails = 1;
 			}
-			else
-				phil->fails++;
 		}
 		else if (phil->stage == 1)
 		{

@@ -3,42 +3,6 @@
 typedef struct timeval	t_time;
 typedef struct timezone	t_zone;
 
-void	wrapped_print(t_opt *opt, t_llint ttime, int pid, char *str)
-{
-	if (!opt->alive)
-		return ;
-	pthread_mutex_lock(opt->print_m);
-	printf("%lld %d %s\n", ttime, pid, str);
-	pthread_mutex_unlock(opt->print_m);
-}
-
-t_llint	mtime(void)
-{
-	t_llint	mtime_res;
-	int		res;
-	t_time	tv;
-	t_zone	tz;
-
-	res = gettimeofday(&tv, &tz);
-	mtime_res = tv.tv_sec * 1000;
-	mtime_res += tv.tv_usec / 1000;
-	return (mtime_res);
-}
-
-void	msleep_till(t_llint msec)
-{
-	t_llint	delta;
-
-	delta = msec - mtime();
-	if (delta > 0)
-		usleep(delta * 1000);
-}
-
-void	msleep(t_llint msec)
-{
-	usleep(msec * 1000);
-}
-
 int	get_forks(t_opt *opt, t_phil *phil)
 {
 	int	res;
@@ -52,70 +16,6 @@ void	drop_forks(t_opt *opt, t_phil *phil)
 {
 	sem_post(opt->sem);
 	sem_post(opt->sem);
-}
-
-void	*life(void *arg)
-{
-	t_opt	*opt;
-	t_phil	*phil;
-	t_llint	tt;
-	int		res;
-
-	phil = (t_phil *)arg;
-	opt = phil->opt;
-	wrapped_print(opt, mtime(), phil->pid, "start");
-	while (opt->alive)
-	{
-		tt = mtime();
-		if (phil->last_eat < tt - opt->time_die)
-		{
-			opt->alive = 0;
-			wrapped_print(opt, mtime(), phil->pid, "died");
-			break ;
-		}
-		if (phil->stage == 0)
-		{
-			res = get_forks(opt, phil);
-			if (res)
-			{
-				wrapped_print(opt, mtime(), phil->pid, "is eating");
-				phil->last_eat = tt;
-				phil->stage_time = tt;
-				phil->stage = 1;
-				phil->fails = 1;
-			}
-			else
-				phil->fails++;
-		}
-		else if (phil->stage == 1)
-		{
-			if (phil->stage_time < tt - opt->time_eat)
-			{
-				wrapped_print(opt, mtime(), phil->pid, "is sleeping");
-				drop_forks(opt, phil);
-				phil->stage_time = tt;
-				phil->stage = 2;
-			}
-		}
-		else if (phil->stage == 2)
-		{
-			if (phil->stage_time < tt - opt->time_sleep)
-			{
-				phil->stage_time = tt;
-				phil->stage = 0;
-				phil->eat_count++;
-				if (opt->eat_count >= 0 && phil->eat_count >= opt->eat_count)
-				{
-					wrapped_print(opt, mtime(), phil->pid, "done!");
-					break ;
-				}
-				else
-					wrapped_print(opt, mtime(), phil->pid, "is thinking");
-			}
-		}
-		msleep(1);
-	}
-	return (0);
 }
 
 void	init_mutex(t_opt *opt)
@@ -152,12 +52,13 @@ int	main(int argc, char **argv)
 	opt->time_die = atoi(argv[2]);
 	opt->time_eat = atoi(argv[3]);
 	opt->time_sleep = atoi(argv[4]);
+	opt->alive = 1;
 	if (argc > 5)
 		opt->eat_count = atoi(argv[5]);
 	else
 		opt->eat_count = -1;
-	opt->alive = 1;
-	char semname[] = "sem5";
+	char semname[] = "sem9";
+	sem_unlink(semname);
 	opt->sem = sem_open(semname, O_CREAT, 0644, opt->p_count);
 	printf("sem create %p\n", opt->sem);
 	init_mutex(opt);
@@ -169,7 +70,6 @@ int	main(int argc, char **argv)
 		msleep(100);
 		phil = malloc(sizeof(t_phil));
 		phil->stage = 0;
-		phil->fails = 1;
 		phil->eat_count = 0;
 		phil->stage_time = 0;
 		phil->last_eat = mtime();

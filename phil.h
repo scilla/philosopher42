@@ -32,13 +32,13 @@ typedef struct s_opt
 	pthread_mutex_t	**fork_m;
 	pthread_mutex_t	*print_m;
 	t_phil			**phils;
+	pthread_t		*tid;
 }				t_opt;
 
 typedef struct s_phil
 {
 	int			pid;
 	int			stage;
-	int			fails;
 	int			left;
 	int			right;
 	int			eat_count;
@@ -50,8 +50,12 @@ typedef struct s_phil
 void	*life(void *arg);
 void	wrapped_print(t_opt *opt, t_llint ttime, int pid, char *str);
 void	msleep(t_llint msec);
-void	drop_forks(t_opt *opt, t_phil *phil);
 t_llint	mtime(void);
-int		get_forks(t_opt *opt, t_phil *phil);
 int		ft_atoi(const char *str);
+t_phil	*gen_phil(t_opt *opt, int i);
+t_opt	*gen_opt(int argc, char **argv);
+void	init_mutex(t_opt *opt);
+void	drop_forks(t_opt *opt, t_phil *phil);
+int		get_forks(t_opt *opt, t_phil *phil);
+
 #endif

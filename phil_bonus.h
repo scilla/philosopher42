@@ -36,7 +36,6 @@ typedef struct s_phil
 {
 	int			pid;
 	int			stage;
-	int			fails;
 	int			left;
 	int			right;
 	int			eat_count;
@@ -44,5 +43,16 @@ typedef struct s_phil
 	t_llint		last_eat;
 	t_opt		*opt;
 }				t_phil;
+
+void	*life(void *arg);
+void	wrapped_print(t_opt *opt, t_llint ttime, int pid, char *str);
+void	msleep(t_llint msec);
+t_llint	mtime(void);
+int		ft_atoi(const char *str);
+t_phil	*gen_phil(t_opt *opt, int i);
+t_opt	*gen_opt(int argc, char **argv);
+void	init_mutex(t_opt *opt);
+void	drop_forks(t_opt *opt, t_phil *phil);
+int		get_forks(t_opt *opt, t_phil *phil);
 
 #endif
