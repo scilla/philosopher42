@@ -52,6 +52,8 @@ void	*kill_all(void *arg)
 
 	opt = arg;
 	sem_wait(opt->alive);
+	if (opt->skip_kills)
+		return (0);
 	i = 0;
 	while (i < opt->p_count)
 	{
@@ -75,6 +77,7 @@ int	main(int argc, char **argv)
 		forker(opt, i);
 		i++;
 	}
+	opt->skip_kills = 0;
 	pthread_create(&opt->tid, NULL, &kill_all, opt);
 	i = 0;
 	while (i < opt->p_count)
@@ -82,7 +85,9 @@ int	main(int argc, char **argv)
 		waitpid(opt->pids[i], (int *)&opt->pids[i], 0);
 		i++;
 	}
+	opt->skip_kills = 1;
 	sem_post(opt->alive);
+	usleep(1000);
 	ft_exit(opt);
 	return (0);
 }

@@ -36,6 +36,7 @@ typedef struct s_opt
 	sem_t			*alive;
 	t_phil			**phils;
 	pthread_t		tid;
+	int				skip_kills;
 }				t_opt;
 
 typedef struct s_phil
