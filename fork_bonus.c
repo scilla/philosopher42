@@ -5,8 +5,8 @@ int	get_forks(t_opt *opt, t_phil *phil)
 	int	res;
 
 	sem_wait(opt->sem);
-	wrapped_print(opt, mtime(), phil->pid, "has taken a fork");
 	sem_wait(opt->sem);
+	wrapped_print(opt, mtime(), phil->pid, "has taken a fork");
 	wrapped_print(opt, mtime(), phil->pid, "has taken a fork");
 	return (1);
 }

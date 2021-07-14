@@ -10,6 +10,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <signal.h>
 
 typedef long long int	t_llint;
 
@@ -28,13 +29,13 @@ typedef struct s_opt
 	t_llint			time_eat;
 	t_llint			time_sleep;
 	int				p_count;
-	int				**forks;
-	int				alive;
 	int				eat_count;
 	id_t			*pids;
 	sem_t			*print_m;
 	sem_t			*sem;
+	sem_t			*alive;
 	t_phil			**phils;
+	pthread_t		tid;
 }				t_opt;
 
 typedef struct s_phil

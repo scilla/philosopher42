@@ -1,15 +1,15 @@
-SRCS			= main.c utils.c life.c ft_atoi.c ft_strdup.c generator.c fork.c print.c
-SRCS_BONUS		= main_bonus.c utils.c life.c ft_atoi.c ft_strdup.c fork_bonus.c print_bonus.c generator_bonus.c ft_calloc.c ft_strlen.c ft_strlcpy.c
+SRCS			= main.c utils.c life.c ft_atoi.c ft_strdup.c generator.c fork.c print.c ft_calloc.c ft_strlen.c ft_strlcpy.c
+SRCS_BONUS		= main_bonus.c utils.c life_bonus.c ft_atoi.c ft_strdup.c fork_bonus.c print_bonus.c generator_bonus.c ft_calloc.c ft_strlen.c ft_strlcpy.c
 OBJ				= $(SRCS:.c=.o)
 OBJ_BONUS		= $(SRCS_BONUS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -lpthread 
+CFLAGS			= -Wall -Wextra -Werror -g # -lpthread 
 NAME			= philosopher
 
 %.o:			%.c
-				$(CC) -c $< -o $@
+				$(CC) -c -g $< -o $@
 
 all:			$(NAME)
 
