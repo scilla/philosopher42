@@ -8,7 +8,7 @@ void	init_mutex(t_opt *opt)
 	int		i;
 	char	*sem_name;
 
-	sem_name = ft_strdup("/tmp/sprint");
+	sem_name = ft_strdup("sprint");
 	i = 0;
 	sem_unlink(sem_name);
 	opt->print_m = sem_open(sem_name, O_CREAT | O_EXCL, 0644, 1);

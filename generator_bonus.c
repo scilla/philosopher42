@@ -4,10 +4,10 @@ void	gen_sem(t_opt *opt)
 {
 	char	*sem_name;
 
-	sem_name = ft_strdup("/tmp/phil");
+	sem_name = ft_strdup("phil");
 	sem_unlink(sem_name);
 	opt->sem = sem_open(sem_name, O_CREAT | O_EXCL, 0644, opt->p_count);
-	sem_name = ft_strdup("/tmp/salive");
+	sem_name = ft_strdup("salive");
 	sem_unlink(sem_name);
 	opt->alive = sem_open(sem_name, O_CREAT | O_EXCL, 0644, 0);
 }
