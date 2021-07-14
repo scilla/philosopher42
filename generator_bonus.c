@@ -7,9 +7,11 @@ void	gen_sem(t_opt *opt)
 	sem_name = ft_strdup("phil");
 	sem_unlink(sem_name);
 	opt->sem = sem_open(sem_name, O_CREAT | O_EXCL, 0644, opt->p_count);
+	free(sem_name);
 	sem_name = ft_strdup("salive");
 	sem_unlink(sem_name);
 	opt->alive = sem_open(sem_name, O_CREAT | O_EXCL, 0644, 0);
+	free(sem_name);
 }
 
 t_opt	*gen_opt(int argc, char **argv)

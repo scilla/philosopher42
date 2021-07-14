@@ -12,6 +12,7 @@ void	init_mutex(t_opt *opt)
 	i = 0;
 	sem_unlink(sem_name);
 	opt->print_m = sem_open(sem_name, O_CREAT | O_EXCL, 0644, 1);
+	free(sem_name);
 }
 
 void	forker(t_opt *opt, int i)
