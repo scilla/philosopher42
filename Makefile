@@ -1,5 +1,5 @@
-SRCS			= main.c utils.c life.c ft_atoi.c generator.c fork.c
-SRCS_BONUS		= main_bonus.c utils.c life.c ft_atoi.c fork_bonus.c
+SRCS			= main.c utils.c life.c ft_atoi.c ft_strdup.c generator.c fork.c print.c
+SRCS_BONUS		= main_bonus.c utils.c life.c ft_atoi.c ft_strdup.c fork_bonus.c print_bonus.c generator_bonus.c ft_calloc.c ft_strlen.c ft_strlcpy.c
 OBJ				= $(SRCS:.c=.o)
 OBJ_BONUS		= $(SRCS_BONUS:.c=.o)
 
@@ -16,7 +16,7 @@ all:			$(NAME)
 $(NAME):		$(OBJ)
 				$(CC) $(CFLAGS) -g -o $(NAME) $(OBJ)
 
-bonus:			$(OBJ_BONUS)
+bonus:			fclean $(OBJ_BONUS)
 				$(CC) $(CFLAGS) -g -o $(NAME) $(OBJ_BONUS)
 
 clean:

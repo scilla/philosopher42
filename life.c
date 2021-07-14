@@ -78,7 +78,6 @@ void	*life(void *arg)
 
 	phil = (t_phil *)arg;
 	opt = phil->opt;
-	wrapped_print(opt, mtime(), phil->pid, "start");
 	if (!(phil->pid % 2))
 		msleep(opt->time_eat);
 	while (opt->alive)

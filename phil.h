@@ -57,5 +57,6 @@ t_opt	*gen_opt(int argc, char **argv);
 void	init_mutex(t_opt *opt);
 void	drop_forks(t_opt *opt, t_phil *phil);
 int		get_forks(t_opt *opt, t_phil *phil);
+char	*ft_strdup(const char *s1);
 
 #endif

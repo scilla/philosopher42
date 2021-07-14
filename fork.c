@@ -7,7 +7,7 @@ int	check_left_fork(t_opt *opt, t_phil *phil)
 	res = 0;
 	if (!*opt->forks[phil->pid - 1])
 	{
-		wrapped_print(opt, mtime(), phil->pid, "has taken a fork (left)");
+		wrapped_print(opt, mtime(), phil->pid, "has taken a fork");
 		*opt->forks[phil->pid - 1] = 1;
 		res += 1;
 		phil->left = 1;
@@ -22,7 +22,7 @@ int	check_right_fork(t_opt *opt, t_phil *phil)
 	res = 0;
 	if (!*opt->forks[phil->pid])
 	{
-		wrapped_print(opt, mtime(), phil->pid, "has taken a fork (right)");
+		wrapped_print(opt, mtime(), phil->pid, "has taken a fork");
 		*opt->forks[phil->pid] = 1;
 		res += 2;
 		phil->right = 1;

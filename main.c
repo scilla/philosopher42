@@ -41,6 +41,7 @@ void	init_mutex(t_opt *opt)
 	opt->forks[i] = opt->forks[0];
 	opt->print_m = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(opt->print_m, NULL);
+	opt->sim_start = mtime();
 }
 
 int	main(int argc, char **argv)
@@ -52,7 +53,6 @@ int	main(int argc, char **argv)
 
 	opt = gen_opt(argc, argv);
 	i = 0;
-	opt->sim_start = mtime();
 	while (i < opt->p_count)
 	{
 		phil = gen_phil(opt, i);

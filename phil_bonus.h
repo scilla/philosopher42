@@ -19,8 +19,11 @@ typedef struct s_tinfo
 	int			tnum;
 }				t_tinfo;
 
+typedef struct s_phil	t_phil;
+
 typedef struct s_opt
 {
+	t_llint			sim_start;
 	t_llint			time_die;
 	t_llint			time_eat;
 	t_llint			time_sleep;
@@ -28,8 +31,10 @@ typedef struct s_opt
 	int				**forks;
 	int				alive;
 	int				eat_count;
-	pthread_mutex_t	*print_m;
+	id_t			*pids;
+	sem_t			*print_m;
 	sem_t			*sem;
+	t_phil			**phils;
 }				t_opt;
 
 typedef struct s_phil
@@ -54,5 +59,9 @@ t_opt	*gen_opt(int argc, char **argv);
 void	init_mutex(t_opt *opt);
 void	drop_forks(t_opt *opt, t_phil *phil);
 int		get_forks(t_opt *opt, t_phil *phil);
+char	*ft_strdup(const char *s1);
+void	*ft_calloc(size_t count, size_t size);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlen(const char *s);
 
 #endif

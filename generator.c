@@ -21,12 +21,17 @@ t_opt	*gen_opt(int argc, char **argv)
 {
 	t_opt	*opt;
 
+	if (argc < 5 || argc > 6)
+	{
+		printf("wrong args\n");
+		exit(0);
+	}
 	opt = malloc(sizeof(t_opt));
 	opt->p_count = ft_atoi(argv[1]);
 	opt->time_die = ft_atoi(argv[2]);
 	opt->time_eat = ft_atoi(argv[3]);
 	opt->time_sleep = ft_atoi(argv[4]);
-	if (argc > 5)
+	if (argc == 6)
 		opt->eat_count = ft_atoi(argv[5]);
 	else
 		opt->eat_count = -1;
