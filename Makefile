@@ -5,7 +5,7 @@ OBJ_BONUS		= $(SRCS_BONUS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g # -lpthread 
+CFLAGS			= -Wall -Wextra -Werror -g -lpthread 
 NAME			= philosopher
 
 %.o:			%.c
