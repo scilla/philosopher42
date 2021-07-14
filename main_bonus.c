@@ -85,7 +85,7 @@ int	main(int argc, char **argv)
 	}
 	opt->skip_kills = 1;
 	sem_post(opt->alive);
-	usleep(1000);
+	pthread_join(opt->tid, NULL);
 	ft_exit(opt);
 	return (0);
 }
