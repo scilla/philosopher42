@@ -82,6 +82,7 @@ int	main(int argc, char **argv)
 		waitpid(opt->pids[i], (int *)&opt->pids[i], 0);
 		i++;
 	}
+	sem_post(opt->alive);
 	ft_exit(opt);
 	return (0);
 }
