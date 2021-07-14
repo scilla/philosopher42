@@ -50,12 +50,10 @@ void	*kill_all(void *arg)
 	int		i;
 	t_opt	*opt;
 
-	opt = arg;
+	opt = (t_opt *)arg;
 	sem_wait(opt->alive);
-	if (opt->skip_kills)
-		return (0);
 	i = 0;
-	while (i < opt->p_count)
+	while (i < opt->p_count && !opt->skip_kills)
 	{
 		kill(opt->pids[i], 1);
 		i++;
