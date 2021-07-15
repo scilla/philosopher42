@@ -6,7 +6,7 @@
 /*   By: scilla <scilla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 17:25:01 by scilla            #+#    #+#             */
-/*   Updated: 2021/07/15 17:25:01 by scilla           ###   ########.fr       */
+/*   Updated: 2021/07/15 17:30:25 by scilla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	stage_sleep(t_opt *opt, t_phil *phil)
 	tt = mtime();
 	if (phil->stage_time <= tt - opt->time_eat)
 	{
-		wrapped_print(opt, tt, phil->pid, "is sleeping");
+		if (!(opt->eat_count >= 0 && phil->eat_count >= opt->eat_count - 1))
+			wrapped_print(opt, tt, phil->pid, "is sleeping");
 		drop_forks(opt, phil);
 		phil->stage_time = tt;
 		phil->stage = 2;
@@ -87,6 +88,8 @@ void	*check_death(void *arg)
 			phil->alive = 0;
 		}
 		usleep(1000);
+		if (opt->eat_count >= 0 && phil->eat_count >= opt->eat_count)
+			break ;
 	}
 	exit (0);
 	return (0);
