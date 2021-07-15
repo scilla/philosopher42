@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "utils.h"
 
 int	ft_return_values(long long result, int sign)
 {

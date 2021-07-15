@@ -42,9 +42,11 @@ typedef struct s_phil
 	int			left;
 	int			right;
 	int			eat_count;
+	int			alive;
 	t_llint		stage_time;
 	t_llint		last_eat;
 	t_opt		*opt;
+	pthread_t	tid;
 }				t_phil;
 
 void	*life(void *arg);

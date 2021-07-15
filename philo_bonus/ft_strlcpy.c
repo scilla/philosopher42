@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbuonvin <vbuonvin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/15 17:27:06 by vbuonvin          #+#    #+#             */
+/*   Created: 2021/01/15 10:06:58 by vbuonvin          #+#    #+#             */
 /*   Updated: 2021/06/21 13:41:35 by rboldini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "phil_bonus.h"
+#include "utils.h"
 
-char	*ft_strdup(const char *s1)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char	*new;
+	size_t	i;
 
-	new = (char *)ft_calloc(sizeof(char), ft_strlen(s1) + 1);
-	if (new == 0)
+	i = 0;
+	if (dst == NULL || src == NULL)
 		return (0);
-	ft_strlcpy(new, s1, ft_strlen(s1) + 1);
-	return (new);
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (src[i] != '\0' && i < dstsize - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }

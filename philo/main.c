@@ -55,15 +55,18 @@ int	main(int argc, char **argv)
 	while (i < opt->p_count)
 	{
 		phil = gen_phil(opt, i);
-		pthread_create(&opt->tid[i], NULL, &life, phil);
 		i++;
 	}
 	i = 0;
 	while (i < opt->p_count)
 	{
-		pthread_join(opt->tid[i], &ret);
+		pthread_create(&opt->tid[i], NULL, &life, opt->phils[i]);
+		usleep(100);
 		i++;
 	}
+	i = 0;
+	while (i < opt->p_count)
+		pthread_join(opt->tid[i++], &ret);
 	ft_exit(opt);
 	return (0);
 }
