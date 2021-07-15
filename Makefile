@@ -5,19 +5,19 @@ OBJ_BONUS		= $(SRCS_BONUS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g -lpthread 
+CFLAGS			= -Wall -Wextra -Werror -g -pthread
 NAME			= philosopher
 
 %.o:			%.c
-				$(CC) -c -g $< -o $@
+				$(CC) $(CFLAGS) -c $< -o $@
 
 all:			$(NAME)
 
 $(NAME):		$(OBJ)
-				$(CC) $(CFLAGS) -g -o $(NAME) $(OBJ)
+				$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 bonus:			fclean $(OBJ_BONUS)
-				$(CC) $(CFLAGS) -g -o $(NAME) $(OBJ_BONUS)
+				$(CC) $(CFLAGS) -o $(NAME) $(OBJ_BONUS)
 
 clean:
 				$(RM) $(OBJ) $(OBJ_BONUS)

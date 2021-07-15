@@ -74,7 +74,6 @@ void	*life(void *arg)
 	t_opt	*opt;
 	t_phil	*phil;
 	t_llint	tt;
-	int		res;
 
 	phil = (t_phil *)arg;
 	opt = phil->opt;

@@ -17,7 +17,6 @@ void	gen_sem(t_opt *opt)
 t_opt	*gen_opt(int argc, char **argv)
 {
 	t_opt	*opt;
-	char	*sem_name;
 
 	if (argc < 5 || argc > 6)
 	{
@@ -47,6 +46,8 @@ t_phil	*gen_phil(t_opt *opt, int i)
 	phil->stage = 0;
 	phil->eat_count = 0;
 	phil->stage_time = 0;
+	phil->checking = 0;
+	phil->has_forks = 0;
 	phil->last_eat = mtime();
 	phil->opt = opt;
 	phil->pid = i + 1;

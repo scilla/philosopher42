@@ -5,11 +5,9 @@ typedef struct timezone	t_zone;
 
 void	init_mutex(t_opt *opt)
 {
-	int		i;
 	char	*sem_name;
 
 	sem_name = ft_strdup("sprint");
-	i = 0;
 	sem_unlink(sem_name);
 	opt->print_m = sem_open(sem_name, O_CREAT | O_EXCL, 0644, 1);
 	free(sem_name);
@@ -64,7 +62,6 @@ void	*kill_all(void *arg)
 int	main(int argc, char **argv)
 {
 	int		i;
-	t_phil	*phil;
 	t_opt	*opt;
 
 	opt = gen_opt(argc, argv);

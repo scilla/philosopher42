@@ -3,11 +3,10 @@
 t_llint	mtime(void)
 {
 	t_llint	mtime_res;
-	int		res;
 	t_time	tv;
 	t_zone	tz;
 
-	res = gettimeofday(&tv, &tz);
+	gettimeofday(&tv, &tz);
 	mtime_res = tv.tv_sec * 1000;
 	mtime_res += tv.tv_usec / 1000;
 	return (mtime_res);

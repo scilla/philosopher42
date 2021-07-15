@@ -23,8 +23,7 @@ void	ft_exit(t_opt *opt)
 
 void	init_mutex(t_opt *opt)
 {
-	int				i;
-	pthread_mutex_t	**fork_m;
+	int	i;
 
 	opt->fork_m = malloc(sizeof(pthread_mutex_t *) * (opt->p_count + 1));
 	opt->forks = malloc(sizeof(int *) * (opt->p_count + 1));

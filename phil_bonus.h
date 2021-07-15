@@ -46,9 +46,12 @@ typedef struct s_phil
 	int			left;
 	int			right;
 	int			eat_count;
+	int			checking;
+	int			has_forks;
 	t_llint		stage_time;
 	t_llint		last_eat;
 	t_opt		*opt;
+	pthread_t	tid;
 }				t_phil;
 
 void	*life(void *arg);
@@ -60,7 +63,7 @@ t_phil	*gen_phil(t_opt *opt, int i);
 t_opt	*gen_opt(int argc, char **argv);
 void	init_mutex(t_opt *opt);
 void	drop_forks(t_opt *opt, t_phil *phil);
-int		get_forks(t_opt *opt, t_phil *phil);
+void	*get_forks(void *arg);
 char	*ft_strdup(const char *s1);
 void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
