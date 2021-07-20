@@ -6,7 +6,7 @@
 /*   By: scilla <scilla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 17:25:01 by scilla            #+#    #+#             */
-/*   Updated: 2021/07/15 17:30:25 by scilla           ###   ########.fr       */
+/*   Updated: 2021/07/20 16:40:00 by scilla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,21 @@ void	*check_death(void *arg)
 		tt = mtime();
 		if (phil->last_eat < tt - opt->time_die)
 		{
-			wrapped_print(opt, tt, phil->pid, "died");
+			pthread_mutex_lock(opt->print_m);
+			if (opt->alive)
+				printf("%lld %d %s\n", mtime() - opt->sim_start, phil->pid, "died");
 			opt->alive = 0;
 			phil->alive = 0;
+			pthread_mutex_unlock(opt->print_m);
+			if (phil->left)
+				pthread_mutex_unlock(opt->fork_m[phil->pid - 1]);
+			if (phil->right)
+				pthread_mutex_unlock(opt->fork_m[phil->pid]);
 		}
 		usleep(1000);
 		if (opt->eat_count >= 0 && phil->eat_count >= opt->eat_count)
 			break ;
 	}
-	exit (0);
 	return (0);
 }
 
@@ -113,6 +119,10 @@ void	*life(void *arg)
 		else if (stage_think(opt, phil))
 			break ;
 	}
+	if (phil->left)
+		pthread_mutex_unlock(opt->fork_m[phil->pid - 1]);
+	if (phil->right)
+		pthread_mutex_unlock(opt->fork_m[phil->pid]);
 	pthread_join(phil->tid, NULL);
 	return (0);
 }
