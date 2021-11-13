@@ -1,6 +1,0 @@
-{
-	"files.associations": {
-		"*.html": "django-html",
-		"phil_bonus.h": "c"
-	}
-}
